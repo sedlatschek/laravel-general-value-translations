@@ -1,36 +1,29 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Sedlatschek\GeneralValueTranslations\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Sedlatschek\GeneralValueTranslations\GeneralValueTranslationsServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            GeneralValueTranslationsServiceProvider::class,
         ];
     }
 
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        $app->bind('path.lang', fn () => __DIR__.'/lang');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
-        $migration->up();
-        */
+        // $app->register(\Sedlatschek\GeneralValueTranslations\ValidationServiceProvider::class);
     }
 }
