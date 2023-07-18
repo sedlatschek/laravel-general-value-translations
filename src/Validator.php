@@ -17,13 +17,14 @@ class Validator extends \Illuminate\Validation\Validator
             return $this->customValues[$attribute][$value];
         }
 
-        $key = "validation.values.{$attribute}.{$value}";
-
-        if (($line = $this->translator->get($key)) !== $key) {
-            return $line;
+        foreach ([
+            "validation.values.{$attribute}.{$value}",
+            "validation.general-values.{$value}",
+        ] as $key) {
+            if (($line = $this->translator->get($key)) !== $key) {
+                return $line;
+            }
         }
-
-        $key = "validation.general-values.{$value}";
 
         if (($line = $this->translator->get($key)) !== $key) {
             return $line;
